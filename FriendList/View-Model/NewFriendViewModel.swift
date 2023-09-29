@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+extension NewFriendView {
+    class NewFriendViewModel: ObservableObject {
+        let manager = FriendManager.shared
+        
+        @Published var name = ""
+        @Published var place = ""
+        @Published var date = Date.now
+    }
+}

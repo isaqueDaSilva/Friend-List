@@ -12,12 +12,25 @@ struct FriendListView: View {
     var body: some View {
         NavigationView {
             List {
-                
+                Section {
+                    ForEach(viewModel.friends) { friend in
+                        NavigationLink {
+                            FriendDetailsView()
+                        } label: {
+                            HStack {
+                                // Display Image
+                                
+                                // Display Name
+                                Text(friend.name)
+                            }
+                        }
+                    }
+                }
             }
             .navigationTitle("Friend List")
             .toolbar {
+                // Add New Friend Button
                 ToolbarItem {
-                    // Add New Friend Button
                     Button {
                         viewModel.showingAddNewFriend = true
                     } label: {
@@ -25,10 +38,12 @@ struct FriendListView: View {
                     }
                 }
                 
+                // Edit Button
                 ToolbarItem(placement: .topBarLeading) {
                     EditButton()
                 }
             }
+            // Display NewFriendView
             .sheet(isPresented: $viewModel.showingAddNewFriend, content: {
                 NewFriendView()
             })

@@ -10,6 +10,6 @@ import Foundation
 struct Friend: Identifiable {
     let id = UUID()
     let name: String
-    let gatheringPlace: String
-    let meetingDate: Date
+    let place: String
+    let date: Date
 }

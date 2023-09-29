@@ -9,7 +9,19 @@ import Foundation
 
 extension FriendListView {
     class FriendListViewModel: ObservableObject {
+        let manager = FriendManager.shared
+        
+        @Published var friends = [Friend]()
         @Published var showingAddNewFriend: Bool = false
         
+        func getFriendList() {
+            Task {
+                self.friends = await manager.friendsList
+            }
+        }
+        
+        init() {
+            getFriendList()
+        }
     }
 }
