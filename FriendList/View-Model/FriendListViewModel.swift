@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+extension FriendListView {
+    class FriendListViewModel: ObservableObject {
+        @Published var showingAddNewFriend: Bool = false
+        
+    }
+}
