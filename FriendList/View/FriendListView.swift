@@ -15,7 +15,7 @@ struct FriendListView: View {
                 Section {
                     ForEach(viewModel.friends) { friend in
                         NavigationLink {
-                            FriendDetailsView()
+                            FriendDetailsView(friend: friend)
                         } label: {
                             HStack {
                                 // Display Image
@@ -49,8 +49,4 @@ struct FriendListView: View {
             })
         }
     }
-}
-
-#Preview {
-    FriendListView()
 }

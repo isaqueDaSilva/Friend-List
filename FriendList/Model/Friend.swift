@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct Friend: Identifiable {
+struct Friend: Codable, Identifiable {
     let id = UUID()
     let name: String
+    let friendPhoto: UIImage
     let place: String
     let date: Date
 }

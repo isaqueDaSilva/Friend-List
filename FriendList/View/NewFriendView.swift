@@ -9,25 +9,31 @@ import SwiftUI
 
 struct NewFriendView: View {
     @Environment(\.dismiss) var dismiss
-    
     @StateObject var viewModel = NewFriendViewModel()
     var body: some View {
         NavigationView {
             VStack {
-                Button(action: {
-                    
-                }, label: {
-                    ZStack {
-                        Rectangle()
-                            .fill(.secondary)
-                            .cornerRadius(10)
-                        
-                        Image(systemName: "square.and.arrow.down")
-                            .font(.system(size: 40))
-                    }
-                })
-                .frame(width: 250, height: 250)
-                .padding()
+                if viewModel.image == nil {
+                    Button(action: {
+                        viewModel.showingImagePicker = true
+                    }, label: {
+                        ZStack {
+                            Rectangle()
+                                .fill(.secondary)
+                                .cornerRadius(10)
+                            
+                            Image(systemName: "square.and.arrow.down")
+                                .font(.system(size: 40))
+                        }
+                    })
+                    .frame(width: 250, height: 250)
+                    .padding()
+                } else {
+                    viewModel.image?
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 250, height: 250)
+                }
                 
                 VStack {
                     TextField("Insert Name:", text: $viewModel.name)
@@ -60,12 +66,10 @@ struct NewFriendView: View {
                     })
                 }
             }
+            .sheet(isPresented: $viewModel.showingImagePicker, content: {
+                ImagePicker(image: $viewModel.inputImage)
+                    .onChange(of: viewModel.inputImage) { viewModel.loadImage() }
+            })
         }
-    }
-}
-
-#Preview {
-    NavigationView {
-        NewFriendView()
     }
 }

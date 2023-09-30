@@ -12,3 +12,9 @@ extension TextField where Label : View {
         modifier(FieldModifier())
     }
 }
+
+extension Text {
+    func fieldStyle() -> some View {
+        modifier(FieldModifier())
+    }
+}

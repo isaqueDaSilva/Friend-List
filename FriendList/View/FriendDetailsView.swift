@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FriendDetailsView: View {
+    @StateObject var viewModel: FriendDetailsViewModel
     var body: some View {
         VStack {
             ZStack {
@@ -21,22 +22,17 @@ struct FriendDetailsView: View {
             .frame(width: 250, height: 250)
             .padding()
             
-            List {
-                Section {
-                    Text("Gathering Place:")
-                    Text("meetingDate")
-                }
-            }
-            .listStyle(.plain)
+            Text(viewModel.place)
+                .fieldStyle()
+            Text(viewModel.dateFormatter())
+                .fieldStyle()
              Spacer()
         }
-        .navigationTitle("Friend Name")
+        .navigationTitle(viewModel.name)
         .navigationBarTitleDisplayMode(.inline)
     }
-}
-
-#Preview {
-    NavigationView {
-        FriendDetailsView()
+    
+    init(friend: Friend) {
+        _viewModel = StateObject(wrappedValue: FriendDetailsViewModel(friend: friend))
     }
 }
