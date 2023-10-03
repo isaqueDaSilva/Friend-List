@@ -10,18 +10,19 @@ import SwiftUI
 struct FriendDetailsView: View {
     @StateObject var viewModel: FriendDetailsViewModel
     var body: some View {
-        List {
-            VStack {
-                if let image = viewModel.image {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFit()
-                }
+        VStack {
+            if let image = viewModel.image {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .padding()
             }
-            .padding()
-            Section {
-                DetailView(title: "Place", description: viewModel.place)
-                DetailView(title: "Date", description: viewModel.dateFormatter())
+            
+            List {
+                Section {
+                    DetailView(title: "Place:", description: viewModel.place)
+                    DetailView(title: "Date:", description: viewModel.dateFormatter())
+                }
             }
         }
         .listStyle(.plain)

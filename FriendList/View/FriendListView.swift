@@ -24,10 +24,10 @@ struct FriendListView: View {
                                         Image(uiImage: image)
                                             .resizable()
                                             .scaledToFill()
-                                            .background(Circle())
+                                            .frame(width: 48, height: 48)
+                                            .clipShape(Circle())
                                     }
                                 }
-                                .frame(width: 48, height: 48)
                                 // Display Name
                                 Text(friend.unwrappedName)
                                     .padding(.horizontal)

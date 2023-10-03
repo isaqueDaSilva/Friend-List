@@ -35,16 +35,13 @@ struct NewFriendView: View {
                         .frame(width: 250, height: 250)
                 }
                 
-                VStack {
-                    TextField("Insert Name:", text: $viewModel.name)
-                        .fieldStyle()
-                    TextField("Insert Place:", text: $viewModel.place)
-                        .fieldStyle()
-                    DatePicker("Date:", selection: $viewModel.date, in: ...Date.now, displayedComponents: .date)
-                        .dataPickerStyle()
+                Form {
+                    Section {
+                        TextField("Insert Name:", text: $viewModel.name)
+                        TextField("Insert Place:", text: $viewModel.place)
+                        DatePicker("Date:", selection: $viewModel.date, in: ...Date.now, displayedComponents: .date)
+                    }
                 }
-                .padding()
-                Spacer()
             }
             .navigationTitle("New Friend")
             .navigationBarTitleDisplayMode(.inline)
