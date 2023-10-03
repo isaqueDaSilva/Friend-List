@@ -10,22 +10,23 @@ import SwiftUI
 struct FriendDetailsView: View {
     @StateObject var viewModel: FriendDetailsViewModel
     var body: some View {
-        VStack {
-            if let image = viewModel.image {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .padding()
+        List {
+            HStack {
+                Spacer()
+                if let image = viewModel.image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 250)
+                }
+                Spacer()
             }
             
-            List {
-                Section {
-                    DetailView(title: "Place:", description: viewModel.place)
-                    DetailView(title: "Date:", description: viewModel.dateFormatter())
-                }
+            Section {
+                DetailView(title: "Place:", description: viewModel.place)
+                DetailView(title: "Date:", description: viewModel.dateFormatter())
             }
         }
-        .listStyle(.plain)
         .navigationTitle(viewModel.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

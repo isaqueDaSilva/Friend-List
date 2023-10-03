@@ -12,35 +12,38 @@ struct NewFriendView: View {
     @StateObject var viewModel: NewFriendViewModel
     var body: some View {
         NavigationView {
-            VStack {
-                if viewModel.image == nil {
-                    Button(action: {
-                        viewModel.showingImagePicker = true
-                    }, label: {
-                        ZStack {
-                            Rectangle()
-                                .fill(.secondary)
-                                .cornerRadius(10)
-                            
-                            Image(systemName: "square.and.arrow.down")
-                                .font(.system(size: 40))
-                        }
-                    })
-                    .frame(width: 250, height: 250)
-                    .padding()
-                } else {
-                    viewModel.image?
-                        .resizable()
-                        .scaledToFit()
+            Form {
+                HStack {
+                    Spacer()
+                    
+                    if viewModel.image == nil {
+                        Button(action: {
+                            viewModel.showingImagePicker = true
+                        }, label: {
+                            ZStack {
+                                Rectangle()
+                                    .fill(.secondary)
+                                    .cornerRadius(10)
+                                
+                                Image(systemName: "square.and.arrow.down")
+                                    .font(.system(size: 40))
+                            }
+                        })
                         .frame(width: 250, height: 250)
+                    } else {
+                        viewModel.image?
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 250, height: 250)
+                    }
+                    
+                    Spacer()
                 }
                 
-                Form {
-                    Section {
-                        TextField("Insert Name:", text: $viewModel.name)
-                        TextField("Insert Place:", text: $viewModel.place)
-                        DatePicker("Date:", selection: $viewModel.date, in: ...Date.now, displayedComponents: .date)
-                    }
+                Section {
+                    TextField("Insert Name:", text: $viewModel.name)
+                    TextField("Insert Place:", text: $viewModel.place)
+                    DatePicker("Date:", selection: $viewModel.date, in: ...Date.now, displayedComponents: .date)
                 }
             }
             .navigationTitle("New Friend")

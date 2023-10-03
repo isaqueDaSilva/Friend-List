@@ -23,7 +23,7 @@ struct FriendListView: View {
                                     if let image = friend.friendPhoto {
                                         Image(uiImage: image)
                                             .resizable()
-                                            .scaledToFill()
+                                            .scaledToFit()
                                             .frame(width: 48, height: 48)
                                             .clipShape(Circle())
                                     }
