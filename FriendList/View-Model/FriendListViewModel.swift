@@ -15,8 +15,17 @@ extension FriendListView {
         @Published var showingAddNewFriend: Bool = false
         
         func getFriendList() {
+            Task { @MainActor in
+                await manager.fetchFriends()
+                friends = await manager.friendList
+            }
+        }
+        
+        func delete(_ indexSet: IndexSet) {
             Task {
-                self.friends = await manager.friendsList
+                guard let index = indexSet.first else { return }
+                let friend = friends[index]
+                await manager.delete(friend)
             }
         }
         

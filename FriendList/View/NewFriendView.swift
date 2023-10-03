@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NewFriendView: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject var viewModel = NewFriendViewModel()
+    @StateObject var viewModel: NewFriendViewModel
     var body: some View {
         NavigationView {
             VStack {
@@ -51,6 +51,7 @@ struct NewFriendView: View {
             .toolbar {
                 ToolbarItem {
                     Button("OK") {
+                        viewModel.addNewFriend()
                         dismiss()
                     }
                 }
@@ -71,5 +72,9 @@ struct NewFriendView: View {
                     .onChange(of: viewModel.inputImage) { viewModel.loadImage() }
             })
         }
+    }
+    
+    init(onSave: @escaping () -> Void) {
+        _viewModel = StateObject(wrappedValue: NewFriendViewModel(onSave: onSave))
     }
 }

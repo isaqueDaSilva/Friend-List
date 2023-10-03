@@ -19,10 +19,32 @@ extension NewFriendView {
         @Published var inputImage: UIImage?
         @Published var showingImagePicker = false
         
+        var onSave: () -> Void
+        
         func loadImage() {
             guard let inputImage = inputImage else { return }
-            
-            self.image = Image(uiImage: inputImage)
+            DispatchQueue.main.async {
+                self.image = Image(uiImage: inputImage)
+            }
+        }
+        
+        func addNewFriend() {
+            Task {
+                let newFriend = Friend(context: manager.context)
+                newFriend.id = UUID()
+                newFriend.name = self.name
+                newFriend.friendPhoto = self.inputImage
+                newFriend.place = self.place
+                newFriend.date = self.date
+                await manager.save()
+                DispatchQueue.main.async {
+                    self.onSave()
+                }
+            }
+        }
+        
+        init(onSave: @escaping () -> Void) {
+            self.onSave = onSave
         }
     }
 }

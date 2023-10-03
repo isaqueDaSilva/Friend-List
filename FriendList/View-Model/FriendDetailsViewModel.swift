@@ -6,12 +6,20 @@
 //
 
 import Foundation
+import UIKit
 
 extension FriendDetailsView {
     class FriendDetailsViewModel: ObservableObject {
+        let manager = FriendManager.shared
+        
         @Published var name: String
+        @Published var image: UIImage?
         @Published var place: String
         @Published var date: Date
+        @Published var showingDeleteAlert = false
+        
+        var friend: Friend
+        var onSave: () -> Void
         
         func dateFormatter() -> String {
             let formatter = DateFormatter()
@@ -19,10 +27,23 @@ extension FriendDetailsView {
             return formatter.string(from: date)
         }
         
-        init(friend: Friend) {
-            _name = Published(initialValue: friend.name)
-            _place = Published(initialValue: friend.place)
-            _date = Published(initialValue: friend.date)
+        func delete() {
+            Task {
+                await manager.delete(friend)
+                DispatchQueue.main.async {
+                    self.onSave()
+                }
+            }
+        }
+        
+        init(friend: Friend, onSave: @escaping () -> Void) {
+            self.friend = friend
+            self.onSave = onSave
+            
+            _name = Published(initialValue: friend.unwrappedName)
+            _image = Published(initialValue: friend.friendPhoto)
+            _place = Published(initialValue: friend.unwrappedPlace)
+            _date = Published(initialValue: friend.unwrappedDate)
         }
     }
 }

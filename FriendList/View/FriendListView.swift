@@ -15,16 +15,26 @@ struct FriendListView: View {
                 Section {
                     ForEach(viewModel.friends) { friend in
                         NavigationLink {
-                            FriendDetailsView(friend: friend)
+                            FriendDetailsView(friend: friend, onSave: { viewModel.getFriendList() })
                         } label: {
                             HStack {
                                 // Display Image
-                                
+                                VStack {
+                                    if let image = friend.friendPhoto {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .background(Circle())
+                                    }
+                                }
+                                .frame(width: 48, height: 48)
                                 // Display Name
-                                Text(friend.name)
+                                Text(friend.unwrappedName)
+                                    .padding(.horizontal)
                             }
                         }
                     }
+                    .onDelete(perform: viewModel.delete)
                 }
             }
             .navigationTitle("Friend List")
@@ -45,7 +55,7 @@ struct FriendListView: View {
             }
             // Display NewFriendView
             .sheet(isPresented: $viewModel.showingAddNewFriend, content: {
-                NewFriendView()
+                NewFriendView(onSave: { viewModel.getFriendList() })
             })
         }
     }

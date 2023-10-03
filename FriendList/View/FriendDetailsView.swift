@@ -10,29 +10,40 @@ import SwiftUI
 struct FriendDetailsView: View {
     @StateObject var viewModel: FriendDetailsViewModel
     var body: some View {
-        VStack {
-            ZStack {
-                Rectangle()
-                    .fill(.secondary)
-                    .cornerRadius(10)
-                
-                Image(systemName: "square.and.arrow.down")
-                    .font(.system(size: 40))
+        List {
+            VStack {
+                if let image = viewModel.image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                }
             }
-            .frame(width: 250, height: 250)
             .padding()
-            
-            Text(viewModel.place)
-                .fieldStyle()
-            Text(viewModel.dateFormatter())
-                .fieldStyle()
-             Spacer()
+            Section {
+                DetailView(title: "Place", description: viewModel.place)
+                DetailView(title: "Date", description: viewModel.dateFormatter())
+            }
         }
+        .listStyle(.plain)
         .navigationTitle(viewModel.name)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            Button {
+                viewModel.showingDeleteAlert = true
+            } label: {
+                Label("Delete friend", systemImage: "trash")
+            }
+        }
+        .alert("Are you sure you want to delete your friend?", isPresented: $viewModel.showingDeleteAlert) {
+            Button("Delete", role: .destructive) {
+                viewModel.delete()
+            }
+            
+            Button("Cancel", role: .cancel) { }
+        }
     }
     
-    init(friend: Friend) {
-        _viewModel = StateObject(wrappedValue: FriendDetailsViewModel(friend: friend))
+    init(friend: Friend, onSave: @escaping () -> Void) {
+        _viewModel = StateObject(wrappedValue: FriendDetailsViewModel(friend: friend, onSave: onSave))
     }
 }
