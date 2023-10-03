@@ -17,10 +17,10 @@ struct LoginView: View {
                     .foregroundColor(.blue)
                     .padding(.top, 32)
                     .padding(.bottom, 24)
-                Text("Bucket List is locked")
+                Text("Friend List is locked")
                     .font(.title.bold())
                     .padding(5)
-                Text("Use the \(manager.typeOfBiometry) to unlock Bucket List")
+                Text("Use the \(manager.typeOfBiometry) to unlock Friend List")
                     .font(.headline)
                 
                 Spacer()
