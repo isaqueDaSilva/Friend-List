@@ -46,14 +46,22 @@ struct NewFriendView: View {
                 }
                 
                 Section {
-                    TextField("Insert Place:", text: $viewModel.place)
-                        .onChange(of: viewModel.place, perform: { _ in
-                            if !viewModel.place.isEmpty {
-                                viewModel.search()
-                            } else {
-                                viewModel.places = []
-                            }
-                        })
+                    HStack {
+                        TextField("Insert Place:", text: $viewModel.place)
+                            .onChange(of: viewModel.place, perform: { _ in
+                                if viewModel.place.count > 0 {
+                                    viewModel.search()
+                                } else {
+                                    viewModel.places = []
+                                }
+                            })
+                        
+                        Button {
+                            viewModel.getCurrentLocationName()
+                        } label: {
+                            Image(systemName: "location.circle")
+                        }
+                    }
                     
                     if !viewModel.places.isEmpty {
                         ForEach(viewModel.places) { place in

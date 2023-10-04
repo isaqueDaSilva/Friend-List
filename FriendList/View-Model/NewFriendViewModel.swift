@@ -66,6 +66,22 @@ extension NewFriendView {
             }
         }
         
+        func getCurrentLocationName() {
+            let geocoder = CLGeocoder()
+            guard let location = locationManager.location else { return }
+            geocoder.reverseGeocodeLocation(location, preferredLocale: .current) { placemarks, error in
+                guard let placeName = placemarks?.first, error == nil else { return }
+                
+                if let locality = placeName.locality {
+                    self.place = locality
+                }
+                
+                if let admRegion = placeName.administrativeArea {
+                    self.place += ", \(admRegion)"
+                }
+            }
+        }
+        
         init(onSave: @escaping () -> Void) {
             self.onSave = onSave
         }
