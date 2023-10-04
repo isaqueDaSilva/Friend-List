@@ -67,7 +67,7 @@ struct NewFriendView: View {
                         ForEach(viewModel.places) { place in
                             VStack(alignment: .leading) {
                                 Text(place.name)
-                                    .font(.title2)
+                                    .font(.title3)
                                 Text(place.adress)
                                     .font(.callout)
                             }
