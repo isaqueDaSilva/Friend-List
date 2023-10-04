@@ -47,9 +47,9 @@ struct NewFriendView: View {
                 
                 Section {
                     HStack {
-                        TextField("Insert Place:", text: $viewModel.place)
-                            .onChange(of: viewModel.place, perform: { _ in
-                                if viewModel.place.count > 0 {
+                        TextField("Insert Place:", text: $viewModel.placeName)
+                            .onChange(of: viewModel.placeName, perform: { _ in
+                                if viewModel.placeName.count > 0 {
                                     viewModel.search()
                                 } else {
                                     viewModel.places = []
@@ -72,7 +72,7 @@ struct NewFriendView: View {
                                     .font(.callout)
                             }
                             .onTapGesture {
-                                viewModel.place = place.name
+                                viewModel.placeName = place.name
                             }
                         }
                     }

@@ -15,7 +15,7 @@ extension NewFriendView {
         let locationManager = LocationManager()
         
         @Published var name = ""
-        @Published var place = ""
+        @Published var placeName = ""
         @Published var date = Date.now
         @Published var image: Image?
         @Published var inputImage: UIImage?
@@ -38,7 +38,7 @@ extension NewFriendView {
                 newFriend.id = UUID()
                 newFriend.name = self.name
                 newFriend.friendPhoto = self.inputImage
-                newFriend.place = self.place
+                newFriend.place = self.placeName
                 newFriend.date = self.date
                 if let place = places.first {
                     newFriend.latitude = place.latitude
@@ -53,7 +53,7 @@ extension NewFriendView {
         
         func search() {
             let searchRequest = MKLocalSearch.Request()
-            searchRequest.naturalLanguageQuery = place
+            searchRequest.naturalLanguageQuery = placeName
             searchRequest.region = locationManager.region
             let search = MKLocalSearch(request: searchRequest)
             
@@ -73,11 +73,11 @@ extension NewFriendView {
                 guard let placeName = placemarks?.first, error == nil else { return }
                 
                 if let locality = placeName.locality {
-                    self.place = locality
+                    self.placeName = locality
                 }
                 
                 if let admRegion = placeName.administrativeArea {
-                    self.place += ", \(admRegion)"
+                    self.placeName += ", \(admRegion)"
                 }
             }
         }
