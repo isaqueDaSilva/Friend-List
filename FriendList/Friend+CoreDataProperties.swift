@@ -2,12 +2,12 @@
 //  Friend+CoreDataProperties.swift
 //  FriendList
 //
-//  Created by Isaque da Silva on 01/10/23.
+//  Created by Isaque da Silva on 04/10/23.
 //
 //
 
-import CoreData
 import Foundation
+import CoreData
 import UIKit
 
 
@@ -17,11 +17,13 @@ extension Friend {
         return NSFetchRequest<Friend>(entityName: "Friend")
     }
 
+    @NSManaged public var date: Date?
+    @NSManaged public var friendPhoto: UIImage?
     @NSManaged public var id: UUID?
     @NSManaged public var name: String?
-    @NSManaged public var friendPhoto: UIImage?
     @NSManaged public var place: String?
-    @NSManaged public var date: Date?
+    @NSManaged public var longitude: Double
+    @NSManaged public var latitude: Double
     
     public var unwrappedName: String {
         name ?? "No Name avalible..."

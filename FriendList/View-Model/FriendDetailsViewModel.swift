@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import MapKit
 import UIKit
 
 extension FriendDetailsView {
+    @MainActor
     class FriendDetailsViewModel: ObservableObject {
         let manager = FriendManager.shared
         
@@ -16,6 +18,7 @@ extension FriendDetailsView {
         @Published var image: UIImage?
         @Published var place: String
         @Published var date: Date
+        @Published var region: MKCoordinateRegion
         @Published var showingDeleteAlert = false
         
         var friend: Friend
@@ -44,6 +47,7 @@ extension FriendDetailsView {
             _image = Published(initialValue: friend.friendPhoto)
             _place = Published(initialValue: friend.unwrappedPlace)
             _date = Published(initialValue: friend.unwrappedDate)
+            _region = Published(initialValue: MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: friend.latitude, longitude: friend.longitude), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)))
         }
     }
 }

@@ -42,8 +42,32 @@ struct NewFriendView: View {
                 
                 Section {
                     TextField("Insert Name:", text: $viewModel.name)
-                    TextField("Insert Place:", text: $viewModel.place)
                     DatePicker("Date:", selection: $viewModel.date, in: ...Date.now, displayedComponents: .date)
+                }
+                
+                Section {
+                    TextField("Insert Place:", text: $viewModel.place)
+                        .onChange(of: viewModel.place, perform: { _ in
+                            if !viewModel.place.isEmpty {
+                                viewModel.search()
+                            } else {
+                                viewModel.places = []
+                            }
+                        })
+                    
+                    if !viewModel.places.isEmpty {
+                        ForEach(viewModel.places) { place in
+                            VStack(alignment: .leading) {
+                                Text(place.name)
+                                    .font(.title2)
+                                Text(place.adress)
+                                    .font(.callout)
+                            }
+                            .onTapGesture {
+                                viewModel.place = place.name
+                            }
+                        }
+                    }
                 }
             }
             .navigationTitle("New Friend")
@@ -69,7 +93,9 @@ struct NewFriendView: View {
             }
             .sheet(isPresented: $viewModel.showingImagePicker, content: {
                 ImagePicker(image: $viewModel.inputImage)
-                    .onChange(of: viewModel.inputImage) { viewModel.loadImage() }
+                    .onChange(of: viewModel.inputImage, perform: { _ in
+                        viewModel.loadImage()
+                    })
             })
         }
     }

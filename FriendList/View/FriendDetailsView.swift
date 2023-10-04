@@ -5,6 +5,7 @@
 //  Created by Isaque da Silva on 28/09/23.
 //
 
+import MapKit
 import SwiftUI
 
 struct FriendDetailsView: View {
@@ -23,8 +24,26 @@ struct FriendDetailsView: View {
             }
             
             Section {
-                DetailView(title: "Place:", description: viewModel.place)
                 DetailView(title: "Date:", description: viewModel.dateFormatter())
+            }
+            
+            Section {
+                DetailView(title: "Place:", description: viewModel.place)
+                VStack {
+                    Map(coordinateRegion: $viewModel.region, annotationItems: [viewModel.friend]) { friend in
+                        MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: friend.latitude, longitude: friend.longitude)) {
+                            
+                            if let image = viewModel.image {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 48, height: 48)
+                                    .clipShape(Circle())
+                            }
+                        }
+                    }
+                }
+                .frame(height: 300)
             }
         }
         .navigationTitle(viewModel.name)
