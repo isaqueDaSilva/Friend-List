@@ -82,9 +82,11 @@ struct NewFriendView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem {
-                    Button("OK") {
-                        viewModel.addNewFriend()
-                        dismiss()
+                    if !viewModel.name.isEmpty && !viewModel.placeName.isEmpty && viewModel.inputImage != nil {
+                        Button("OK") {
+                            viewModel.addNewFriend()
+                            dismiss()
+                        }
                     }
                 }
                 
