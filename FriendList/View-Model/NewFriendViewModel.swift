@@ -44,7 +44,7 @@ extension NewFriendView {
                     newFriend.latitude = place.latitude
                     newFriend.longitude = place.longitude
                 }
-                await coreDataManager.save()
+                await coreDataManager.addNewFriend(newFriend)
                 DispatchQueue.main.async {
                     self.onSave()
                 }

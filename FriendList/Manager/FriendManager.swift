@@ -26,13 +26,18 @@ actor FriendManager {
         }
     }
     
-    func save() {
+    private func save() {
         do {
             try context.save()
             fetchFriends()
         } catch let error {
             print("Falied to save a new Friend in Friend List. Error: \(error)")
         }
+    }
+    
+    func addNewFriend(_ friend: Friend) {
+        friendList.append(friend)
+        save()
     }
     
     func delete(_ friend: Friend) {
